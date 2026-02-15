@@ -1,9 +1,11 @@
+
 name: Build Android APK
 
 on:
   push:
     branches:
       - main
+  workflow_dispatch:
 
 jobs:
   build:
@@ -20,11 +22,6 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
 
-      - name: Setup Gradle
-        uses: gradle/actions/setup-gradle@v3
-        with:
-          gradle-version: '8.7'
-
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
@@ -32,7 +29,7 @@ jobs:
 
       - name: Install Dependencies
         working-directory: ./frontend
-        run: npm install
+        run: npm ci
 
       - name: Build Frontend
         working-directory: ./frontend
@@ -43,11 +40,15 @@ jobs:
 
       - name: Sync Capacitor
         working-directory: ./frontend
-        run: npx cap sync
+        run: npx cap sync android
 
-      - name: Build APK (System Gradle)
+      - name: Grant Execute Permission for Gradlew
         working-directory: ./frontend/android
-        run: gradle clean assembleDebug
+        run: chmod +x gradlew
+
+      - name: Build APK (Gradle Wrapper)
+        working-directory: ./frontend/android
+        run: ./gradlew clean assembleDebug
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
