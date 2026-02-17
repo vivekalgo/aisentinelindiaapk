@@ -480,6 +480,8 @@ def read_root():
     return {
         "message": "AI Legal Sentinel - India API",
         "status": "running",
+        "ai_available": AI_AVAILABLE,
+        "ai_model_initialized": AI_MODEL is not None,
         "disclaimer": "This tool does not provide legal advice."
     }
 

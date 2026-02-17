@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import axios from 'axios'
 import UploadCard from './UploadCard'
 import RiskCard from './RiskCard'
@@ -16,6 +16,28 @@ const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000'
 
 export default function Dashboard() {
     const { signOut, user } = useAuth()
+
+    // Profile Menu State
+    const [showProfileMenu, setShowProfileMenu] = useState(false)
+    const profileMenuRef = useRef(null)
+
+    // Close menu when clicking outside
+    useEffect(() => {
+        function handleClickOutside(event) {
+            if (profileMenuRef.current && !profileMenuRef.current.contains(event.target)) {
+                setShowProfileMenu(false)
+            }
+        }
+        document.addEventListener("mousedown", handleClickOutside)
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside)
+        }
+    }, [])
+
+    // User Data Helpers
+    const userAvatar = user?.user_metadata?.avatar_url || user?.user_metadata?.picture
+    const userName = user?.user_metadata?.full_name || user?.user_metadata?.name || 'User'
+    const userEmail = user?.email || ''
 
     // Mode state: 'general' or 'hr'
     const [mode, setMode] = useState('general')
@@ -194,13 +216,46 @@ export default function Dashboard() {
                                 </button>
                             </div>
 
-                            {/* Sign Out Button */}
-                            <button
-                                onClick={signOut}
-                                className="px-4 py-2 text-sm text-slate-300 hover:text-white hover:bg-slate-700 rounded-lg transition-colors border border-slate-600 ml-2"
-                            >
-                                Sign Out
-                            </button>
+                            {/* Profile Dropdown */}
+                            <div className="relative ml-4" ref={profileMenuRef}>
+                                <button
+                                    onClick={() => setShowProfileMenu(!showProfileMenu)}
+                                    className="flex items-center gap-2 focus:outline-none transition-transform hover:scale-105"
+                                >
+                                    {userAvatar ? (
+                                        <img
+                                            src={userAvatar}
+                                            alt="Profile"
+                                            className="w-10 h-10 rounded-full border-2 border-slate-600 hover:border-blue-400 transition-colors shadow-md"
+                                        />
+                                    ) : (
+                                        <div className="w-10 h-10 rounded-full bg-blue-600 flex items-center justify-center text-white font-bold border-2 border-slate-600 hover:border-blue-400 transition-colors shadow-md">
+                                            {userName.charAt(0).toUpperCase()}
+                                        </div>
+                                    )}
+                                </button>
+
+                                {/* Dropdown Menu */}
+                                {showProfileMenu && (
+                                    <div className="absolute right-0 mt-2 w-64 bg-white rounded-xl shadow-2xl border border-slate-200 overflow-hidden z-50 animate-fade-in origin-top-right">
+                                        <div className="p-4 border-b border-slate-100 bg-slate-50 text-left">
+                                            <p className="text-sm font-bold text-slate-800 truncate">{userName}</p>
+                                            <p className="text-xs text-slate-500 truncate">{userEmail}</p>
+                                        </div>
+                                        <div className="p-2">
+                                            <button
+                                                onClick={signOut}
+                                                className="w-full flex items-center gap-2 px-4 py-2 text-sm text-red-600 hover:bg-red-50 rounded-lg transition-colors font-medium"
+                                            >
+                                                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                                                </svg>
+                                                Sign Out
+                                            </button>
+                                        </div>
+                                    </div>
+                                )}
+                            </div>
                         </div>
                     </div>
                 </div>
