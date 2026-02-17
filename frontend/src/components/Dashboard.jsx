@@ -164,8 +164,8 @@ export default function Dashboard() {
 
     return (
         <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-blue-50">
-            {/* Header */}
-            <header className="bg-gradient-to-r from-slate-900 to-slate-800 border-b border-slate-700 shadow-lg sticky top-0 z-30">
+            {/* Header - Premium Glassmorphism */}
+            <header className="bg-slate-900/80 backdrop-blur-xl border-b border-white/10 shadow-2xl sticky top-0 z-50 transition-all duration-300">
                 <div className="max-w-7xl mx-auto px-6 py-4">
                     <div className="flex flex-col md:flex-row items-center justify-between gap-4">
                         <div className="flex items-center gap-4">
@@ -226,10 +226,10 @@ export default function Dashboard() {
                                         <img
                                             src={userAvatar}
                                             alt="Profile"
-                                            className="w-10 h-10 rounded-full border-2 border-slate-600 hover:border-blue-400 transition-colors shadow-md"
+                                            className="w-10 h-10 rounded-full object-cover aspect-square border-2 border-indigo-500/50 hover:border-indigo-400 transition-all shadow-lg shadow-indigo-500/20"
                                         />
                                     ) : (
-                                        <div className="w-10 h-10 rounded-full bg-blue-600 flex items-center justify-center text-white font-bold border-2 border-slate-600 hover:border-blue-400 transition-colors shadow-md">
+                                        <div className="w-10 h-10 rounded-full bg-indigo-600 flex items-center justify-center text-white font-bold border-2 border-white/10 hover:border-indigo-400 transition-all shadow-lg shadow-indigo-500/20 aspect-square">
                                             {userName.charAt(0).toUpperCase()}
                                         </div>
                                     )}
