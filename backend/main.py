@@ -48,6 +48,7 @@ except ImportError:
     print("[WARN] python-dotenv not installed, using system environment variables")
 
 # Configure Gemini AI with API Key Rotation AFTER loading .env
+AI_INIT_ERROR = None
 try:
     import google.generativeai as genai
     from api_key_manager import initialize_key_manager, get_key_manager
@@ -81,6 +82,7 @@ except Exception as e:
     AI_AVAILABLE = False
     AI_MODEL = None
     key_manager = None
+    AI_INIT_ERROR = str(e)
     print(f"[ERROR] Error configuring Gemini API: {e}")
 
 def generate_with_retry(prompt, max_retries=3):
@@ -482,6 +484,7 @@ def read_root():
         "status": "running",
         "ai_available": AI_AVAILABLE,
         "ai_model_initialized": AI_MODEL is not None,
+        "init_error": str(AI_INIT_ERROR) if AI_INIT_ERROR else None,
         "disclaimer": "This tool does not provide legal advice."
     }
 
