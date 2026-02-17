@@ -8,6 +8,29 @@
 
 ---
 
+## 🚀 Cloud Deployment & Mobile App
+
+### 1. Backend (Render)
+This project is configured for one-click deployment on Render.
+1. Connect your GitHub repo to [Render](https://render.com).
+2. It will auto-detect `render.yaml`.
+3. Add Environment Variables (e.g., `OPENAI_API_KEY`).
+4. Copy the **Service URL**.
+
+### 2. Frontend (APK)
+The Android APK is built automatically via GitHub Actions.
+1. **Secrets**: Go to Repo Settings -> Secrets -> Actions and add:
+   - `VITE_API_URL`: Your Render Backend URL.
+   - `VITE_SUPABASE_URL`: Your Supabase URL.
+   - `VITE_SUPABASE_ANON_KEY`: Your Supabase Key.
+2. **Build**: Go to "Actions" tab -> "Build Android APK" -> Run Workflow.
+3. **Download**: Get the `app-debug.apk` from the run artifacts.
+
+### 3. Google Auth
+- Add your Render URL and `com.ailegal.sentinel://google-auth` to Supabase Redirect URLs.
+
+---
+
 ## 🎯 What's New in Competition Edition
 
 ### ✨ Enhanced Features
@@ -64,7 +87,7 @@ New folder/
 
 ---
 
-## ⚡ Quick Start
+## ⚡ Local Development
 
 ### Prerequisites
 - Python 3.8+ installed
@@ -89,82 +112,6 @@ npm run dev
 ```
 
 ✅ Frontend runs at: **http://localhost:5173**
-
-### Step 3: Open Browser
-
-Go to **http://localhost:5173** and start analyzing contracts!
-
----
-
-## 🎬 Demo Flow
-
-### 1. Upload Contract
-- Click "Choose File"
-- Select PDF or DOCX contract
-- Click "Analyze Contract"
-
-### 2. View Summary Dashboard
-- Total Clauses Analyzed
-- Risky Clauses Found
-- Overall Risk Score (X/10)
-
-### 3. Review Each Risky Clause
-- **Risk Score:** Severity rating
-- **Law Reference:** Specific Indian law section
-- **Why Risky:** Plain English explanation
-- **What You Can Do:** Actionable steps (numbered list)
-- **Safer Alternative:** Compliant clause rewrite
-- **Original Text:** Collapsible view
-
----
-
-## 🧪 Testing with Sample Contract
-
-### Create Test PDF
-
-**Option 1: Print to PDF**
-1. Open `sample-contract.txt` in Notepad
-2. File → Print → Microsoft Print to PDF
-3. Save as `sample-contract.pdf`
-
-**Option 2: Create DOCX**
-1. Open Microsoft Word
-2. Copy content from `sample-contract.txt`
-3. Save as `sample-contract.docx`
-
-### Expected Results
-
-The sample contract contains all 5 risky clause types:
-
-| Clause # | Type | Risk Score | Law Reference |
-|----------|------|------------|---------------|
-| 4 | Non-Compete | 9/10 | Section 27, Contract Act 1872 |
-| 3 | IP Transfer | 6/10 | Copyright Act 1957 |
-| 7 | Unlimited Liability | 9/10 | Section 23, Contract Act 1872 |
-
-**Overall Risk Score:** ~8.0/10 (High Risk)
-
----
-
-## 🎤 Competition Demo Script (3 Minutes)
-
-### Opening (30 seconds)
-> "AI Legal Sentinel helps Indian freelancers identify risky contract clauses before signing. Legal consultation costs ₹5,000-₹50,000 per contract. Our tool provides first-level legal awareness for free, based on Indian Contract Act 1872."
-
-### Live Demo (90 seconds)
-1. **Upload:** Show privacy badge and upload sample contract
-2. **Summary:** Point out overall risk score (8/10 - High Risk)
-3. **Clause Detail:** Expand non-compete clause
-   - Show Section 27 reference
-   - Read "What You Can Do" steps
-   - Reveal safer alternative clause
-4. **Highlight:** 5 clause types, actionable guidance, Indian law focus
-
-### Technical (30 seconds)
-> "Built with FastAPI and React. Rule-based detection for transparency. Privacy-first: all processing in-memory, no storage. Production-ready code."
-
-### Impact (30 seconds)
-> "This empowers millions of Indian freelancers to understand their rights. It's educational, not just detection. While not legal advice, it helps people ask the right questions and seek help when needed."
 
 ---
 
@@ -202,29 +149,6 @@ The sample contract contains all 5 risky clause types:
 
 ---
 
-## 📊 Features Implemented
-
-### Backend
-✅ 5 clause types (vs 3 in MVP)  
-✅ Risk scoring (0-10 scale)  
-✅ Overall contract risk calculation  
-✅ Actionable "What You Can Do" guidance  
-✅ Safer clause rewrites  
-✅ Enhanced explanations  
-✅ Backward compatible API  
-
-### Frontend
-✅ Summary dashboard with 3-card layout  
-✅ Overall risk score display  
-✅ Enhanced clause cards  
-✅ Color-coded risk indicators  
-✅ Collapsible sections  
-✅ "Why This Matters" educational section  
-✅ Privacy-first messaging  
-✅ Professional design  
-
----
-
 ## 🏆 Competitive Advantages
 
 ### 1. Indian Law Focus
@@ -254,56 +178,6 @@ The sample contract contains all 5 risky clause types:
 
 ---
 
-## 🐛 Troubleshooting
-
-### Backend Issues
-
-**Port 8000 in use:**
-```python
-# Edit main.py, last line:
-uvicorn.run(app, host="0.0.0.0", port=8001)
-```
-
-**Module not found:**
-```bash
-pip install -r requirements.txt
-```
-
-### Frontend Issues
-
-**Port 5173 in use:**
-Vite will auto-assign another port
-
-**npm install fails:**
-```bash
-npm install --legacy-peer-deps
-```
-
-**CORS errors:**
-- Ensure backend is running on port 8000
-- Check browser console for details
-
----
-
-## 📈 Future Enhancements
-
-### Short-term
-- More clause types (payment, jurisdiction)
-- Multi-language support (Hindi, Tamil)
-- PDF report generation
-
-### Medium-term
-- AI/NLP for better detection
-- E-signature platform integration
-- Mobile app (React Native)
-
-### Long-term
-- Lawyer marketplace
-- Contract template library
-- Industry-specific analysis
-
----
-
 ## 🎓 Judging Criteria Alignment
 
 ✅ **Innovation:** First Indian law-focused contract analyzer with actionable guidance  
@@ -311,16 +185,6 @@ npm install --legacy-peer-deps
 ✅ **Impact:** Helps millions of Indian freelancers avoid unfair contracts  
 ✅ **Execution:** Working demo, professional UI, comprehensive features  
 ✅ **Presentation:** Clear value prop, impressive demo, educational focus  
-
----
-
-## 📚 Learning Resources
-
-- [Indian Contract Act, 1872](https://legislative.gov.in/)
-- [Copyright Act, 1957](https://copyright.gov.in/)
-- [Industrial Disputes Act, 1947](https://labour.gov.in/)
-- [FastAPI Documentation](https://fastapi.tiangolo.com/)
-- [React Documentation](https://react.dev/)
 
 ---
 
@@ -350,5 +214,3 @@ This is a competition-ready LegalTech product built with:
 **Built with ❤️ for Indian freelancers**
 
 **Competition Edition - January 2026**
-#   v i v e k  
- 
