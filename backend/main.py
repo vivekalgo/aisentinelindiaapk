@@ -488,6 +488,17 @@ def read_root():
         "disclaimer": "This tool does not provide legal advice."
     }
 
+@app.get("/debug-env")
+def debug_env():
+    """List installed packages for debugging"""
+    import subprocess
+    try:
+        # Run pip freeze
+        result = subprocess.run(["pip", "freeze"], capture_output=True, text=True)
+        return {"packages": result.stdout.split("\n")}
+    except Exception as e:
+        return {"error": str(e)}
+
 
 @app.post("/upload")
 async def analyze_contract(file: UploadFile = File(...)):
