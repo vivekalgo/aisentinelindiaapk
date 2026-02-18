@@ -480,7 +480,7 @@ def analyze_clause(clause: str) -> Dict:
 def read_root():
     """Health check endpoint"""
     return {
-        "message": "AI Legal Sentinel - India API",
+        "message": "AI Legal Sentinel - India API (v2)",
         "status": "running",
         "ai_available": AI_AVAILABLE,
         "ai_model_initialized": AI_MODEL is not None,
